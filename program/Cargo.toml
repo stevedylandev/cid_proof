@@ -1,9 +1,11 @@
 [package]
 version = "0.1.0"
-name = "fibonacci-program"
+name = "cid-proof-program"
 edition = "2021"
 
 [dependencies]
 alloy-sol-types = { workspace = true }
 sp1-zkvm = "4.0.0"
-fibonacci-lib = { path = "../lib" }
+cid-proof-lib = { path = "../lib" }
+multihash = "0.18.1"
+cid = "0.10.1"

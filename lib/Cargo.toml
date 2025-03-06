@@ -1,7 +1,9 @@
 [package]
-name = "fibonacci-lib"
+name = "cid-proof-lib"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 alloy-sol-types = { workspace = true }
+multihash = "0.18.1"
+cid = "0.10.1"

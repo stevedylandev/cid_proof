@@ -9,22 +9,29 @@
 sp1_zkvm::entrypoint!(main);
 
 use alloy_sol_types::SolType;
-use fibonacci_lib::{fibonacci, PublicValuesStruct};
+use cid_proof_lib::{calculate_cid, extract_public_values, PublicValuesStruct};
 
 pub fn main() {
-    // Read an input to the program.
-    //
-    // Behind the scenes, this compiles down to a custom system call which handles reading inputs
-    // from the prover.
-    let n = sp1_zkvm::io::read::<u32>();
+    // Read the file content as input
+    let content = sp1_zkvm::io::read_vec();
 
-    // Compute the n'th fibonacci number using a function from the workspace lib crate.
-    let (a, b) = fibonacci(n);
+    // Print for debugging (can be removed in production)
+    println!("Processing file of size: {} bytes", content.len());
 
-    // Encode the public values of the program.
-    let bytes = PublicValuesStruct::abi_encode(&PublicValuesStruct { n, a, b });
+    // Calculate the CID for the given content
+    let (cid, cid_bytes) = calculate_cid(&content);
 
-    // Commit to the public values of the program. The final proof will have a commitment to all the
-    // bytes that were committed to.
-    sp1_zkvm::io::commit_slice(&bytes);
+    // Print CID for debugging
+    println!("Calculated CID: {}", cid.to_string());
+
+    // Extract public values to be committed
+    let public_values = extract_public_values(cid_bytes);
+
+    // Encode the public values using ABI encoding
+    let encoded_values = PublicValuesStruct::abi_encode(&public_values);
+
+    // Commit the encoded values to make them public in the proof
+    sp1_zkvm::io::commit_slice(&encoded_values);
+
+    println!("CID proof generated successfully!");
 }

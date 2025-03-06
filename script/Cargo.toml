@@ -1,11 +1,11 @@
 [package]
 version = "0.1.0"
-name = "fibonacci-script"
+name = "cid-proof-script"
 edition = "2021"
-default-run = "fibonacci"
+default-run = "cid-proof"
 
 [[bin]]
-name = "fibonacci"
+name = "cid-proof"
 path = "src/bin/main.rs"
 
 [[bin]]
@@ -24,8 +24,10 @@ clap = { version = "4.0", features = ["derive", "env"] }
 tracing = "0.1.40"
 hex = "0.4.3"
 alloy-sol-types = { workspace = true }
-fibonacci-lib = { path = "../lib" }
+cid-proof-lib = { path = "../lib" }
 dotenv = "0.15.0"
+multihash = "0.18.1"
+cid = "0.10.1"
 
 [build-dependencies]
 sp1-build = "4.0.0"
